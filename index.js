@@ -11,6 +11,10 @@ const io = new Server(server, {
   }
 });
 
+app.get('/', (req, res) => {
+  res.send('Hello world');
+});
+
 io.on('connection', (socket) => {
   socket.on('callUser', (signal) => {
     socket.broadcast.emit("incomingCall", signal);
