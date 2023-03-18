@@ -27,10 +27,9 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('callEnded');
   });
 
-  io.to(socket).emit('credentials', { turnId, turnPwd });
+  socket.emit('turnCredentials', { id: turnId, pwd: turnPwd });
 });
 
 server.listen(port, () => {
   console.log(`Server started at port ${port}`);
-  console.log(`ID: ${turnId}`);
 });
