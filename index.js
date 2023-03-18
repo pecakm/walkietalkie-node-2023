@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('callEnded');
   });
 
-  io.to(socket).emit({ turnId, turnPwd });
+  io.to(socket).emit('credentials', { turnId, turnPwd });
 });
 
 server.listen(port, () => {
