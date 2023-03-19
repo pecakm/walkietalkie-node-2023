@@ -15,6 +15,10 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
+  socket.on('joinRoom', () => {
+    socket.broadcast.emit('userJoined', socket.id);
+  });
+
   socket.on('welcomeUser', ({ from, to }) => {
     io.to(to).emit('welcomeUser', from);
   });
@@ -39,7 +43,6 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('userDisconnected', socket.id);
   });
 
-  socket.broadcast.emit('userConnected', socket.id);
   socket.emit('initInfo', {
     mySocketId: socket.id,
     turnId,
