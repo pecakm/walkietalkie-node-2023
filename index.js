@@ -24,10 +24,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('startSpeaking', () => {
+    console.log('Start speaking');
     socket.broadcast.emit('disableMic');
   });
 
   socket.on('stopSpeaking', () => {
+    console.log('Stop speaking');
     socket.broadcast.emit('enableMic');
   });
 
