@@ -15,12 +15,16 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  socket.on('callUser', (signal) => {
-    socket.broadcast.emit('incomingCall', signal);
+  socket.on('welcomeUser', ({ from, to }) => {
+    io.to(to).emit('welcomeUser', from);
   });
 
-  socket.on('answerCall', (signal) => {
-    socket.broadcast.emit('callAccepted', signal);
+  socket.on('callUser', ({ to, from, signal }) => {
+    io.to(to).emit('incomingCall', { from, signal });
+  });
+
+  socket.on('answerCall', ({ from, to, signal }) => {
+    socket.to(to).emit('callAccepted', { from, signal });
   });
 
   socket.on('startSpeaking', () => {
@@ -32,13 +36,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    socket.broadcast.emit('callEnded');
-    socket.broadcast.emit('userCounter', socket.conn.server.clientsCount);
+    socket.broadcast.emit('userDisconnected', socket.id);
   });
 
-  io.emit('userCounter', socket.conn.server.clientsCount);
+  socket.broadcast.emit('userConnected', socket.id);
   socket.emit('initInfo', {
-    initCall: socket.conn.server.clientsCount > 1,
+    mySocketId: socket.id,
     turnId,
     turnPwd,
   });
