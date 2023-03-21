@@ -8,10 +8,7 @@ const turnPwd = process.env.TURN_PWD || '';
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
+  cors: { origin: '*', methods: ['GET', 'POST'] },
 });
 
 io.on('connection', (socket) => {
