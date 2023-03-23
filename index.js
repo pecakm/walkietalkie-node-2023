@@ -47,6 +47,10 @@ io.on('connection', (socket) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.send();
+});
+
 server.listen(port, () => {
   console.log(`Server started at port ${port}`);
 });
