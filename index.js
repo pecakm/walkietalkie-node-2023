@@ -3,8 +3,6 @@ const http = require('http');
 const { Server } = require('socket.io');
 
 const port = process.env.PORT || 3001;
-const turnId = process.env.TURN_ID || '';
-const turnPwd = process.env.TURN_PWD || '';
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -40,11 +38,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('userDisconnected', socket.id);
   });
 
-  socket.emit('initInfo', {
-    mySocketId: socket.id,
-    turnId,
-    turnPwd,
-  });
+  socket.emit('initInfo', socket.id);
 });
 
 app.get('/', (req, res) => {
